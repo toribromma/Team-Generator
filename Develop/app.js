@@ -1,13 +1,18 @@
 const Employee = require("./lib/Employee");
-const Manager = require("./lib/Intern");
-const Engineer = require("./lib/Manager");
-const Intern = require("./lib/Engineer");
-
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const util = require("util");
+const fs = require("fs");
+const writeFileAsync = util.promisify(fs.writeFile);
 var inquirer = require("inquirer")
 inquirer.registerPrompt('recursive', require('inquirer-recursive'));
 
-teamPlayers = [];
-
+var teamPlayers = [];
+var manager = [];
+var intern = [];
+var engineer = [];
+var cards = [];
 
 inquirer.prompt([
 
@@ -27,6 +32,12 @@ inquirer.prompt([
                 }
                 return true;
             }
+        },
+
+        {
+            type: "input",
+            name: "id",
+            message: "what is your id?",
         },
 
         {
@@ -89,52 +100,169 @@ inquirer.prompt([
    
     teamPlayers = answers.teamMembers
 
-    // console.log(teamPlayers)
+    
 
-    const manager = teamPlayers.filter(function(teamPlayers) {
-        if (teamPlayers.title === "Manager") {
-            return new Manager(teamPlayers.name, teamPlayers.id, teamPlayers.email, teamPlayers.github)
+    teamPlayers.filter(function(teamPlayers) {
+        
+        if (teamPlayers.title === "Intern") {
+            intern.push(new Intern(teamPlayers.id, teamPlayers.email, teamPlayers.name, teamPlayers.school))
+        }
+        else if (teamPlayers.title === "Engineer") {
+            engineer.push(new Engineer(teamPlayers.id, teamPlayers.email, teamPlayers.name, teamPlayers.github))
+        }
+        else if (teamPlayers.title === "Manager") {
+            manager.push(new Manager(teamPlayers.id, teamPlayers.email, teamPlayers.name, teamPlayers.officeNumber))
         }
     })
-
-    const engineer = teamPlayers.filter(function(teamPlayers) {
-        return teamPlayers.title === "Engineer"
-    })
-    const intern = teamPlayers.filter(function(teamPlayers) {
-        return teamPlayers.title === "Intern"
-    })
-     
-    console.log(manager);
-    manager.forEach(manageCard => {
-       console.log(manageHtml(manageCard)) ;
         
-    });
 
-    
-    
-    console.log(intern);
-    console.log(engineer);
+    // console.log(intern);
+    // console.log(manager);
+    for (i = 0; i < manager.length; i++) {
+        // console.log(manageHtml(manager[i]));
+        cards.push(manageHtml(manager[i]));
+        // console.log(cards);
+    }
+
+    for (i = 0; i < intern.length; i++) {
+        // console.log(manageHtml(manager[i]));
+        cards.push(internHtml(intern[i]));
+        // console.log(cards);
+    }
+
+    for (i = 0; i < engineer.length; i++) {
+        // console.log(manageHtml(manager[i]));
+        cards.push(engineerHtml(engineer[i]));
+        // console.log(cards);
+    }
+
+    // for (const key of cards) {
+        
+    //   }
+    cardsString = cards.join('');
+
+    console.log(cards)
+   html = teamHtml(cardsString)
+   writeFileAsync("index.html", html);
+
 
 });
 
 
-function manageHtml() {
-    return `<!DOCTYPE html>
+function manageHtml({id, email, name, officeNumber}) {
+    return `
 
-    <div class="card" style="max-width: 12rem;">
+    <div class="card" style="max-width: 14rem;">
         <div class="card-header bg-primary text-light">
-            <h4>Name</h4>
+            <h4>${name}</h4>
             <h5><i class="fa fa-car mr-2"></i>Manager</h5>
         </div>
 
         <div class="card p-1">
             <ul class="list-group p-2 m-2">
-                <li class="list-group-item">ID: ${this.id}</li>
-                <li class="list-group-item">Email: ${this.email}<li>
-                <li class="list-group-item">Office #: ${this.officeNumber}</li>
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email: ${email}</li>
+                <li class="list-group-item">Office #: ${officeNumber}</li>
             </ul>
         </div>  
     </div>
-    
     `
 }
+
+function internHtml({id, email, name, school}) {
+    return `
+
+    <div class="card" style="max-width: 14rem;">
+        <div class="card-header bg-primary text-light">
+            <h4>${name}</h4>
+            <h5><i class="fa fa-car mr-2"></i>Intern</h5>
+        </div>
+
+        <div class="card p-1">
+            <ul class="list-group p-2 m-2">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email: ${email}</li>
+                <li class="list-group-item">School: ${school}</li>
+            </ul>
+        </div>  
+    </div>
+    `
+}
+
+function engineerHtml({id, email, name, github}) {
+    return `
+
+    <div class="card" style="max-width: 14rem;">
+        <div class="card-header bg-primary text-light">
+            <h4>${name}</h4>
+            <h5><i class="fa fa-car mr-2"></i>Engineer</h5>
+        </div>
+
+        <div class="card p-1">
+            <ul class="list-group p-2 m-2">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email: ${email}</li>
+                <li class="list-group-item">GitHub: ${github}</li>
+            </ul>
+        </div>  
+    </div>
+    `
+}
+
+function teamHtml() {
+    return `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Team Players</title>
+    <link  rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+    li {
+        font-size: x-small;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron text-center bg-danger text-light">
+            <h1>Team Players</h1>      
+        </div>
+        
+        <div class="card-group">
+
+            ${cards}
+
+        </div>
+
+
+    </div>
+
+
+
+</body>
+</html>
+    `
+}
+
+// async function init() {
+//     console.log("hi")
+//     try {
+//       const data = await promptUser();
+  
+//       const html = generateHTML(answers);
+  
+//       await writeFileAsync("index.html", html);
+  
+//       console.log("Successfully wrote to index.html");
+//     } catch(err) {
+//       console.log(err);
+//     }
+//   }
+  
+//   init();
+  
