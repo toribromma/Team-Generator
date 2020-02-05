@@ -105,13 +105,13 @@ inquirer.prompt([
     teamPlayers.filter(function(teamPlayers) {
         
         if (teamPlayers.title === "Intern") {
-            intern.push(new Intern(teamPlayers.id, teamPlayers.email, teamPlayers.name, teamPlayers.school))
+            intern.push(new Intern(teamPlayers.name, teamPlayers.id, teamPlayers.email, teamPlayers.school))
         }
         else if (teamPlayers.title === "Engineer") {
-            engineer.push(new Engineer(teamPlayers.id, teamPlayers.email, teamPlayers.name, teamPlayers.github))
+            engineer.push(new Engineer(teamPlayers.name, teamPlayers.id, teamPlayers.email, teamPlayers.github))
         }
         else if (teamPlayers.title === "Manager") {
-            manager.push(new Manager(teamPlayers.id, teamPlayers.email, teamPlayers.name, teamPlayers.officeNumber))
+            manager.push(new Manager(teamPlayers.name, teamPlayers.id, teamPlayers.email, teamPlayers.officeNumber))
         }
     })
         
@@ -139,7 +139,7 @@ inquirer.prompt([
     // for (const key of cards) {
         
     //   }
-    cardsString = cards.join('');
+    cardsString = cards.join(' ');
 
     console.log(cards)
    html = teamHtml(cardsString)
@@ -149,7 +149,7 @@ inquirer.prompt([
 });
 
 
-function manageHtml({id, email, name, officeNumber}) {
+function manageHtml({name, id, email, officeNumber}) {
     return `
 
     <div class="card" style="max-width: 14rem;">
@@ -169,7 +169,7 @@ function manageHtml({id, email, name, officeNumber}) {
     `
 }
 
-function internHtml({id, email, name, school}) {
+function internHtml({name, id, email, school}) {
     return `
 
     <div class="card" style="max-width: 14rem;">
@@ -189,7 +189,7 @@ function internHtml({id, email, name, school}) {
     `
 }
 
-function engineerHtml({id, email, name, github}) {
+function engineerHtml({name, id, email, github}) {
     return `
 
     <div class="card" style="max-width: 14rem;">
