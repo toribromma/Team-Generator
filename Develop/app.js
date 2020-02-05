@@ -139,10 +139,10 @@ inquirer.prompt([
     // for (const key of cards) {
         
     //   }
-    cardsString = cards.join(' ');
+    cards = cards.join(' ');
 
-    console.log(cards)
-   html = teamHtml(cardsString)
+   html = teamHtml(cards);
+   console.log(html);
    writeFileAsync("index.html", html);
 
 
@@ -150,63 +150,51 @@ inquirer.prompt([
 
 
 function manageHtml({name, id, email, officeNumber}) {
-    return `
-
-    <div class="card" style="max-width: 14rem;">
+    return `<div class="card" style="max-width: 14rem;">
         <div class="card-header bg-primary text-light">
             <h4>${name}</h4>
             <h5><i class="fa fa-car mr-2"></i>Manager</h5>
         </div>
-
         <div class="card p-1">
             <ul class="list-group p-2 m-2">
                 <li class="list-group-item">ID: ${id}</li>
                 <li class="list-group-item">Email: ${email}</li>
                 <li class="list-group-item">Office #: ${officeNumber}</li>
             </ul>
-        </div>  
-    </div>
-    `
-}
+        </div>
+    </div>`}
 
 function internHtml({name, id, email, school}) {
-    return `
-
-    <div class="card" style="max-width: 14rem;">
+    return `<div class="card" style="max-width: 14rem;">
         <div class="card-header bg-primary text-light">
             <h4>${name}</h4>
             <h5><i class="fa fa-car mr-2"></i>Intern</h5>
         </div>
-
         <div class="card p-1">
             <ul class="list-group p-2 m-2">
                 <li class="list-group-item">ID: ${id}</li>
                 <li class="list-group-item">Email: ${email}</li>
                 <li class="list-group-item">School: ${school}</li>
             </ul>
-        </div>  
+        </div>
     </div>
     `
 }
 
 function engineerHtml({name, id, email, github}) {
-    return `
-
-    <div class="card" style="max-width: 14rem;">
+    return `<div class="card" style="max-width: 14rem;">
         <div class="card-header bg-primary text-light">
             <h4>${name}</h4>
             <h5><i class="fa fa-car mr-2"></i>Engineer</h5>
         </div>
-
         <div class="card p-1">
             <ul class="list-group p-2 m-2">
                 <li class="list-group-item">ID: ${id}</li>
                 <li class="list-group-item">Email: ${email}</li>
                 <li class="list-group-item">GitHub: ${github}</li>
             </ul>
-        </div>  
-    </div>
-    `
+        </div>
+    </div>`
 }
 
 function teamHtml() {
@@ -230,23 +218,14 @@ function teamHtml() {
 <body>
     <div class="container">
         <div class="jumbotron text-center bg-danger text-light">
-            <h1>Team Players</h1>      
+            <h1>Team Players</h1>
         </div>
-        
         <div class="card-group">
-
             ${cards}
-
         </div>
-
-
     </div>
-
-
-
 </body>
-</html>
-    `
+</html>`
 }
 
 // async function init() {
