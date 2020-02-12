@@ -165,7 +165,7 @@ function manageHtml({name, id, email, officeNumber}) {
     </div>`}
 
 function internHtml({name, id, email, school}) {
-    return `<div class="card" style="max-width: 14rem;">
+    return `<div class="card margin" style="max-width: 14rem;">
         <div class="card-header bg-primary text-light">
             <h4>${name}</h4>
             <h5><i class="fa fa-car mr-2"></i>Intern</h5>
@@ -221,7 +221,8 @@ function teamHtml() {
             <h1>Team Players</h1>
         </div>
         <div class="card-group">
-            ${cards}
+            ${cards} 
+            
         </div>
     </div>
 </body>
