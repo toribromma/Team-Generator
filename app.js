@@ -94,7 +94,8 @@ inquirer
     teamPlayers = answers.teamMembers;
 
     teamPlayers.filter(function (teamPlayers) {
-      if (teamPlayers.title === "Intern") {
+      switch(teamPlayers.title) {
+        case "Intern": 
         intern.push(
           new Intern(
             teamPlayers.name,
@@ -102,17 +103,17 @@ inquirer
             teamPlayers.email,
             teamPlayers.school
           )
-        );
-      } else if (teamPlayers.title === "Engineer") {
-        engineer.push(
-          new Engineer(
-            teamPlayers.name,
-            teamPlayers.id,
-            teamPlayers.email,
-            teamPlayers.github
-          )
-        );
-      } else if (teamPlayers.title === "Manager") {
+        );;
+        case "Engineer":
+          engineer.push(
+            new Engineer(
+              teamPlayers.name,
+              teamPlayers.id,
+              teamPlayers.email,
+              teamPlayers.github
+            )
+          );;
+        case "Manager": 
         manager.push(
           new Manager(
             teamPlayers.name,
@@ -120,7 +121,8 @@ inquirer
             teamPlayers.email,
             teamPlayers.officeNumber
           )
-        );
+        );;
+
       }
     });
 
